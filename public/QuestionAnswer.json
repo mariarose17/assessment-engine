@@ -1,0 +1,95 @@
+{
+	"questionAnswers":[{
+		"id":1,
+		"category": "single",
+		"description": "Who is the first President of India?",
+		"options":[{
+			"id": 1,
+			"description": "Dr Ranjendra Prasad"
+		},{
+			"id": 2,
+			"description": "Dr BR Ambedkar"
+		},{
+			"id": 3,
+			"description": "Indira Gandhi"
+		},{
+			"id": 4,
+			"description": "Mahatma Gandhi"
+		}],
+		"answers": [{
+			"id": 1,
+			"description": "Dr Ranjendra Prasad"
+		}]
+	},
+	{
+		"id":2,
+		"category": "single",
+		"description": "Who is the first Prime Minister of India?",
+		"options":[{
+			"id": 5,
+			"description": "Jawaharlal Nehru"
+		},{
+			"id": 6,
+			"description": "Rajiv Gandhi"
+		},{
+			"id": 7,
+			"description": "rabindranath Tagore"
+		},{
+			"id": 8,
+			"description": "Subash Chandra Bose"
+		}],
+		"answers": [{
+			"id": 5,
+			"description": "Jawaharlal Nehru"
+		}]
+	},{
+		"id":3,
+		"category": "multiple",
+		"description": "Select flowers from the list?",
+		"options":[{
+			"id": 9,
+			"description": "Hibiscus"
+		},{
+			"id": 10,
+			"description": "Aloe Vera"
+		},{
+			"id": 11,
+			"description": "Daffodils"
+		},{
+			"id": 12,
+			"description": "Seqoa"
+		}],
+		"answers": [{
+			"id": 9,
+			"description": "Hibiscus"
+		},{
+			"id": 11,
+			"description": "Daffodils"
+		}]
+	},
+	{
+		"id":4,
+		"category": "multiple",
+		"description": "Select animals from the followign list?",
+		"options":[{
+			"id": 13,
+			"description": "Bat"
+		},{
+			"id": 14,
+			"description": "Rabbit"
+		},{
+			"id": 15,
+			"description": "Chameleon"
+		},{
+			"id": 16,
+			"description": "Turkey"
+		}],
+		"answers": [{
+			"id": 14,
+			"description": "Rabbit"
+		},{
+			"id": 15,
+			"description": "Chameleon"
+		}]
+	}]
+}
