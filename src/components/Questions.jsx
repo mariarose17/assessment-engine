@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Question } from "../../components";
-import { useAnswerState } from "../../hooks/useAnswerState";
-import { useHistory } from "react-router-dom";
+import { Question } from ".";
 
 function Questions({ setAnswerValues, answers, handleSubmitAll }) {
-  const history = useHistory();
   const [questions, setQuestions] = useState([]);
   const [currentSelectedQuestion, setCurrentSelectedQuestion] = useState(
     undefined
   );
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState(0);
   const [currentSelectedOptions, setCurrentSelectedOptions] = useState([]);
-
-  // const answersState = useAnswerState();
-  // const { setAnswerValues, answers } = answersState;
 
   const getData = () => {
     fetch("DummyQuestions.json", {
@@ -23,11 +17,9 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
       },
     })
       .then(function (response) {
-        // console.log(response);
         return response.json();
       })
       .then(function (data) {
-        // console.log(data);
         setQuestions(data.questions);
         const answerSet = data.questions?.map((item) => ({
           id: item.id,
@@ -43,6 +35,7 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
   };
   useEffect(() => {
     getData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -117,9 +110,9 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
     const answerItem = answers && answers.find((item) => item.id === id);
 
     if (answerItem?.isSkipped) {
-      return "red";
+      return "#E38627";
     } else if (answerItem?.isCompleted) {
-      return "green";
+      return "#37c14e";
     } else if (currentSelectedQuestion && currentSelectedQuestion.id === id) {
       return "yellow";
     } else return "white";
@@ -129,27 +122,32 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
     const skipped = [];
     answers.map((item, index) => {
       if (item.isSkipped) skipped.push(index + 1);
+      return null;
     });
     let msg = "";
     if (skipped.length) {
-      msg = `You have skipped ${skipped.length} questions - ${skipped.join(
+      msg = `You have skipped ${skipped.length} questions - Question No:  ${skipped.join(
         ", "
       )}. Are you sure you want to submit ?`;
     } else msg = " Are you sure you want to submit ?";
     const confirm = window.confirm(msg);
     if (confirm) {
-      console.log("submit all======================");
-      // history.push("/result");
       handleSubmitAll();
     }
   };
 
   return (
-    <div className="App">
-      <>
-        {questions &&
-          questions.length &&
-          questions.map((item, index) => (
+    <>
+      <div>
+        Question Palette Color codes
+        <button className="button">Skipped</button>
+        <button className="button button3">Answered</button>
+        <button className="button button2">Current</button>
+      </div>
+      <br />
+
+      {questions && questions.length
+        ? questions.map((item, index) => (
             <button
               id={item.id}
               key={item.id}
@@ -163,6 +161,7 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
                 }
               }}
               style={{
+                marginRight: "10px",
                 backgroundColor: `${getQuestionButtonColor(item.id)}`,
                 cursor:
                   getQuestionButtonColor(item.id) === "white" ||
@@ -173,48 +172,55 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
             >
               {index + 1}
             </button>
-          ))}
-        {currentSelectedQuestion ? (
-          <Question
-            id={currentSelectedQuestion.id}
-            description={currentSelectedQuestion.description}
-            options={currentSelectedQuestion.options}
-            category={currentSelectedQuestion.category}
-            answers={answers}
-            handleChangeOption={handleChangeOption}
-            currentSelectedOptions={currentSelectedOptions}
-            questionNumber={currentSelectedIndex + 1}
-          />
-        ) : (
-          <p>Loading...</p>
-        )}
-
-        <button
-          disabled={currentSelectedIndex === 0}
-          onClick={() => setCurrentSelectedIndex(currentSelectedIndex - 1)}
-        >
-          Previous
-        </button>
-        <button onClick={() => handleSkip()}>Skip</button>
-        <button onClick={() => handleSubmit()} disabled={isSubmitDisabled()}>
-          Submit
-        </button>
-        <button
-          onClick={() =>
-            questions &&
-            questions.length &&
-            currentSelectedIndex === questions.length - 1
-              ? checkSkippedAndSubmit()
-              : setCurrentSelectedIndex(currentSelectedIndex + 1)
-          }
-          disabled={isNextDisabled()}
-        >
-          {currentSelectedIndex === questions.length - 1
-            ? "Submit Assessment"
-            : "Next"}
-        </button>
-      </>
-    </div>
+          ))
+        : null}
+      {currentSelectedQuestion ? (
+        <Question
+          id={currentSelectedQuestion.id}
+          description={currentSelectedQuestion.description}
+          options={currentSelectedQuestion.options}
+          category={currentSelectedQuestion.category}
+          answers={answers}
+          handleChangeOption={handleChangeOption}
+          currentSelectedOptions={currentSelectedOptions}
+          questionNumber={currentSelectedIndex + 1}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
+      <br />
+      <button
+        disabled={currentSelectedIndex === 0}
+        onClick={() => setCurrentSelectedIndex(currentSelectedIndex - 1)}
+        style={{ marginRight: "10px" }}
+      >
+        Previous
+      </button>
+      <button onClick={() => handleSkip()} style={{ marginRight: "10px" }}>
+        Skip
+      </button>
+      <button
+        onClick={() => handleSubmit()}
+        disabled={isSubmitDisabled()}
+        style={{ marginRight: "10px" }}
+      >
+        Submit
+      </button>
+      <button
+        onClick={() =>
+          questions &&
+          questions.length &&
+          currentSelectedIndex === questions.length - 1
+            ? checkSkippedAndSubmit()
+            : setCurrentSelectedIndex(currentSelectedIndex + 1)
+        }
+        disabled={isNextDisabled()}
+      >
+        {currentSelectedIndex === questions.length - 1
+          ? "Submit Assessment"
+          : "Next"}
+      </button>
+    </>
   );
 }
 

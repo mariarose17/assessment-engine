@@ -7,10 +7,6 @@ const initialState = {
 function answerReducer(state, action) {
   switch (action.type) {
     case "update_answer_set":
-      console.log(
-        "🚀 ~ file: useAnswerState.js ~ line 20 ~ answerReducer ~ update_answer_set"
-      );
-
       return {
         ...state,
         answers: action.value,

@@ -1,3 +1,6 @@
 import Question from "./Question";
+import Questions from "./Questions";
 
-export { Question };
+import Result from "./Result";
+
+export { Question, Questions, Result };

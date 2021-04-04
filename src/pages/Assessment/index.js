@@ -1,22 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState } from "react";
 import { useAnswerState } from "../../hooks/useAnswerState";
-import Questions from "../Questions";
-import Result from "../Result";
+import { Questions, Result } from "../../components";
 
 function Assessment() {
-  const history = useHistory();
   const answersState = useAnswerState();
-  const { setAnswerValues, answers } = answersState;
   const [completed, setCompleted] = useState(false);
 
   return (
     <>
       {!completed && (
-        <Questions
-          {...answersState}
-          handleSubmitAll={() => setCompleted(true)}
-        />
+        <div style={{ marginBlock: "150px" }}>
+          <Questions
+            {...answersState}
+            handleSubmitAll={() => setCompleted(true)}
+          />
+        </div>
       )}
       {completed && <Result {...answersState} />}
     </>

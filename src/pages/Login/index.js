@@ -6,7 +6,17 @@ function Login() {
 
   return (
     <>
-      <button onClick={() => history.push("/assessment")}>Login</button>
+      <button
+        onClick={() => history.push("/assessment")}
+        style={{
+          marginBlock: "335px",
+          height: "50px",
+          fontSize: "20px",
+          backgroundColor: "lightblue",
+        }}
+      >
+        Start Exam
+      </button>
     </>
   );
 }
