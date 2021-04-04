@@ -8,6 +8,7 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
   );
   const [currentSelectedIndex, setCurrentSelectedIndex] = useState(0);
   const [currentSelectedOptions, setCurrentSelectedOptions] = useState([]);
+  const [isSubmitAll, setIsSubmitAll] = useState(false);
 
   const getData = () => {
     fetch("DummyQuestions.json", {
@@ -126,7 +127,9 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
     });
     let msg = "";
     if (skipped.length) {
-      msg = `You have skipped ${skipped.length} questions - Question No:  ${skipped.join(
+      msg = `You have skipped ${
+        skipped.length
+      } questions - Question No:  ${skipped.join(
         ", "
       )}. Are you sure you want to submit ?`;
     } else msg = " Are you sure you want to submit ?";
@@ -196,30 +199,49 @@ function Questions({ setAnswerValues, answers, handleSubmitAll }) {
       >
         Previous
       </button>
-      <button onClick={() => handleSkip()} style={{ marginRight: "10px" }}>
+      <button
+        onClick={() => {
+          if (currentSelectedIndex === questions.length - 1) {
+            setIsSubmitAll(true);
+          }
+          handleSkip();
+        }}
+        style={{ marginRight: "10px" }}
+      >
         Skip
       </button>
       <button
-        onClick={() => handleSubmit()}
+        onClick={() => {
+          if (currentSelectedIndex === questions.length - 1) {
+            setIsSubmitAll(true);
+          }
+          handleSubmit();
+        }}
         disabled={isSubmitDisabled()}
         style={{ marginRight: "10px" }}
       >
         Submit
       </button>
-      <button
-        onClick={() =>
-          questions &&
-          questions.length &&
-          currentSelectedIndex === questions.length - 1
-            ? checkSkippedAndSubmit()
-            : setCurrentSelectedIndex(currentSelectedIndex + 1)
-        }
-        disabled={isNextDisabled()}
-      >
-        {currentSelectedIndex === questions.length - 1
-          ? "Submit Assessment"
-          : "Next"}
-      </button>
+      {currentSelectedIndex !== questions.length - 1 ? (
+        <button
+          onClick={() => setCurrentSelectedIndex(currentSelectedIndex + 1)}
+          disabled={isNextDisabled()}
+        >
+          Next
+        </button>
+      ) : null}
+
+      <br />
+
+      {isSubmitAll ? (
+        <button
+          onClick={() => checkSkippedAndSubmit()}
+          disabled={!isSubmitAll}
+          style={{ marginBlock: "10px", backgroundColor: "lightblue" }}
+        >
+          Submit All
+        </button>
+      ) : null}
     </>
   );
 }
